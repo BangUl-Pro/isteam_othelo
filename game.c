@@ -20,7 +20,7 @@ void printHorizontalLine() {
  * TODO 세로줄 출력
  * */
 void printVerticalLine(int line) {
-    printf("%c\t|\t|\t|\t|\t|\t|\t|\t|\t|\n", line);
+    printf("%d\t|\t|\t|\t|\t|\t|\t|\t|\t|\n", line);
 }
 
 /*
@@ -227,8 +227,8 @@ void baseSetting() {
     printf("PLAYER2 = %c / %d\t\t\t", PLAYER2, 2);
     printf("TURN = PLAYER1\n");
 
-    char line = 'a';
-    printf("\t   1\t   2\t   3\t   4\t   5\t   6\t   7\t   8\n");
+    char line = 1;
+    printf("\t   a\t   b\t   c\t   d\t   e\t   f\t   g\t   h\n");
     printHorizontalLine();
     for (i = 0; i < LINE; ++i) {
         printVerticalLine(line++);
