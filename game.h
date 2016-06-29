@@ -22,8 +22,9 @@
 #define SCORE_X 35
 #define SCORE_Y 0
 
-void baseSetting();
+void baseSetting(int playerWin1, int playerWin2, int draw);
 int checkGameable();
+int getPinCount(char player);
 void setPin(char player, int x, char y);
 void inputPin(char player);
 #endif //OTHELO_GAME_H

@@ -62,6 +62,11 @@ int changePin(char player, int x, char y) {
     int curY = y - 'a';
     int count, state, changeCount = 0;
     int j, k;
+
+    // 이미 다른 돌이 있음
+    if (pin[curX][curY])
+        return 0;
+
     for (j = -1; j <= 1; ++j) {
         for (k = -1; k <= 1; ++k) {
             if (j == 0 && k == 0)
@@ -246,12 +251,18 @@ int checkGameable() {
 /*
  * TODO 기본 세팅
  * */
-void baseSetting() {
-    int i;
+void baseSetting(int playerWin1, int playerWin2, int draw) {
+    int i, j;
+
+    for (i = 0; i < 8; ++i) {
+        for (j = 0; j < 8; ++j) {
+            pin[i][j] = 0;
+        }
+    }
 
     system("cls");
     printf("PLAYER1 = %c / %d\t\t\t", PLAYER1, 2);
-    printf("w/d/l = %d/%d/%d\n", 0, 0, 0);
+    printf("PLAYER1 %d VS %d PLAYER2 \t DROW %d\n", playerWin1, playerWin2, draw);
     printf("PLAYER2 = %c / %d\t\t\t", PLAYER2, 2);
     printf("TURN = PLAYER1\n");
 
