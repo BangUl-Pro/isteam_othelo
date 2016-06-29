@@ -5,6 +5,8 @@ void startGame();
 int choiceMenu();
 void showRule();
 
+int startPlayer = 1;
+
 int main() {
 //    while (1) {
         switch (choiceMenu()) {
@@ -33,6 +35,17 @@ int main() {
  * */
 void startGame() {
     baseSetting();
+    while (checkGameable()) {
+        if (startPlayer) {
+            inputPin(PLAYER1);
+            inputPin(PLAYER2);
+            startPlayer--;
+        } else {
+            inputPin(PLAYER2);
+            inputPin(PLAYER1);
+            startPlayer++;
+        }
+    }
 }
 
 

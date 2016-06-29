@@ -4,10 +4,6 @@
 
 #include "game.h"
 
-#define LINE 8
-#define PLAYER1 'O'
-#define PLAYER2 'X'
-
 /*
  * TODO 가로줄 출력
  * */
@@ -29,11 +25,30 @@ void printVerticalLine(int line) {
  * @params y y좌표
  * */
 void setPin(char player, char x, int y) {
-    int curX = x - 'a' + 1;
+    int curX = x - 'a' + 2;
     COORD position = {(y << 3) + 4, curX << 1};
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleCursorPosition(console, position);
     printf("%c", player);
+}
+
+/*
+ * TODO 바둑돌 둘 곳 입력 받기
+ * @params player 플레이어
+ * */
+void inputPin(char player) {
+    char x;
+    int y;
+    x = getchar();
+    scanf("%d", &y);
+    setPin(player, x, y);
+}
+
+/*
+ * TODO 게임 지속 가능한지 체크
+ * */
+int checkGameable() {
+    
 }
 
 
@@ -42,6 +57,11 @@ void setPin(char player, char x, int y) {
  * */
 void baseSetting() {
     system("cls");
+    printf("PLAYER1 = %c / %d\t\t\t", PLAYER1, 2);
+    printf("w/d/l = %d/%d/%d\n", 0, 0, 0);
+    printf("PLAYER2 = %c / %d\t\t\t", PLAYER2, 2);
+    printf("TURN = PLAYER1\n");
+
     char line = 'a';
     printf("\t   1\t   2\t   3\t   4\t   5\t   6\t   7\t   8\n");
     printHorizontalLine();

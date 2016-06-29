@@ -8,5 +8,12 @@
 #include "stdio.h"
 #include "windows.h"
 
+#define LINE 8
+#define PLAYER1 'O'
+#define PLAYER2 'X'
+
 void baseSetting();
+int checkGameable();
+void setPin(char player, char x, int y);
+void inputPin(char player);
 #endif //OTHELO_GAME_H
