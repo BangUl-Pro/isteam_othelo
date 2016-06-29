@@ -14,6 +14,6 @@
 
 void baseSetting();
 int checkGameable();
-void setPin(char player, char x, int y);
+void setPin(char player, int x, char y);
 void inputPin(char player);
 #endif //OTHELO_GAME_H

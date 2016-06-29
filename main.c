@@ -39,13 +39,15 @@ void startGame() {
         if (startPlayer) {
             inputPin(PLAYER1);
             inputPin(PLAYER2);
-            startPlayer--;
         } else {
             inputPin(PLAYER2);
             inputPin(PLAYER1);
-            startPlayer++;
         }
     }
+    if (startPlayer)
+        startPlayer--;
+    else
+        startPlayer++;
 }
 
 
