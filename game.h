@@ -6,6 +6,7 @@
 #define OTHELO_GAME_H
 
 #include "stdio.h"
+#include "windows.h"
 
 void baseSetting();
 #endif //OTHELO_GAME_H
