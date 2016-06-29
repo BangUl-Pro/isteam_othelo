@@ -11,6 +11,8 @@
 #define LINE 8
 #define PLAYER1 'O'
 #define PLAYER2 'X'
+#define ANOTER 1
+#define MINE 2
 
 void baseSetting();
 int checkGameable();

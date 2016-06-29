@@ -6,6 +6,9 @@
 
 int pin[8][8] = {0};
 
+int isSetPinable(char player, int x, char y);
+int isAnotherPin(char player, int x, char y);
+
 /*
  * TODO 가로줄 출력
  * */
@@ -36,6 +39,41 @@ void setPin(char player, int x, char y) {
 }
 
 /*
+ * TODO 핀 놓는 순간 둘러쌓인 핀 뒤집기
+ * */
+int changePin(char player, int x, char y) {
+    int curX = x - 1;
+    int curY = y - 'a';
+    int count, state, changeCount = 0;
+    int j, k;
+    for (j = -1; j <= 1; ++j) {
+        for (k = -1; k <= 1; ++k) {
+            if (j == 0 && k == 0)
+                continue;
+            int j2 = j;
+            int k2 = k;
+            count = 0;
+            while ((state = isAnotherPin(player, curX + j2, curY + k2)) == 1) {
+                j2+=j;
+                k2+=k;
+                count++;
+            }
+            if (state == 2 && count > 0) {
+                changeCount++;
+                while (count--) {
+                    j2 -= j;
+                    k2 -= k;
+                    setPin(player, x + j2, y + k2);
+                }
+            }
+        }
+    }
+    if (changeCount)
+        return 1;
+    return 0;
+}
+
+/*
  * TODO 바둑돌 둘 곳 입력 받기
  * @params player 플레이어
  * */
@@ -43,15 +81,17 @@ void inputPin(char player) {
     COORD position = {0, 25};
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleCursorPosition(console, position);
-
-    char x;
-    int y;
-    printf("input alphabet =   \b\b");
-    getchar();
-    x = getchar();
-    printf("input number =   \b\b");
-    scanf("%d", &y);
-    setPin(player, y, x);
+    char y;
+    int x;
+    do {
+        printf("input alphabet =   \b\b");
+        getchar();
+        y = getchar();
+        printf("input number =   \b\b");
+        scanf("%d", &x);
+    }
+    while (!changePin(player, x, y));
+    setPin(player, x, y);
 }
 
 /*
@@ -83,8 +123,6 @@ int isNoPin() {
         for (j = 0; j < 8; ++j) {
             if (!pin[i][j])
                 continue;
-
-            printf("%d\n", pin[i][j]);
             if (!temp)
                 temp = pin[i][j];
             else if (pin[i][j] != temp) {
@@ -101,6 +139,25 @@ int isNoPin() {
 }
 
 /*
+ * TODO player의 돌과 다른 돌인지 확인
+ * @param player 플레이어
+ * @param x x좌표
+ * @param y y좌표
+ * @return 0 벽 or 아무 돌도 없음
+ * @return 1 다른 돌
+ * @return 2 내 돌
+ * */
+int isAnotherPin(char player, int x, char y) {
+//    printf("x = %d\n", x);
+//    printf("y = %d\n", y);
+    if (x < 0 || y < 0 || x > 7 || y > 7 || !pin[x][y])
+        return 0;
+    else if (pin[x][y] == player)
+        return 2;
+    return 1;
+}
+
+/*
  * TODO 바둑돌을 놓을 수 있는지
  * @params player 플레이어
  * @params x x좌표
@@ -108,9 +165,31 @@ int isNoPin() {
  * */
 int isSetPinable(char player, int x, char y) {
     // 이미 다른 돌이 있음
-    if (pin[x - 1][y - 'a'])
+    int curX = x - 1;
+    int curY = y - 'a';
+    int count = 0, state = 0;
+    if (pin[curX][curY])
         return 0;
-    
+
+    int j, k;
+    for (j = -1; j <= 1; ++j) {
+        for (k = -1; k <= 1; ++k) {
+            if (j == 0 && k == 0)
+                continue;
+            int j2 = j;
+            int k2 = k;
+            count = 0;
+            while ((state = isAnotherPin(player, curX + j2, curY + k2)) == 1) {
+                j2+=j2;
+                k2+=k2;
+                count++;
+            }
+            if (state == 2 && count > 0) {
+                return 1;
+            }
+        }
+    }
+    return 0;
 }
 
 /*
@@ -122,14 +201,14 @@ int checkGameable() {
         return 0;
     if (isNoPin())
         return 0;
-    for (i = 0; i < 8; ++i) {
-        for (j = 0; j < 8; ++j) {
-            if (isSetPinable(PLAYER1, i, j))
-                return 1;
-            if (isSetPinable(PLAYER2, i, j))
-                return 1;
-        }
-    }
+//    for (i = 0; i < 8; ++i) {
+//        for (j = 0; j < 8; ++j) {
+//            if (isSetPinable(PLAYER1, i, j))
+//                return 1;
+//            if (isSetPinable(PLAYER2, i, j))
+//                return 1;
+//        }
+//    }
     if (i == 8 && j == 8)
         return 0;
     return 1;
