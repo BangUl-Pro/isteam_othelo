@@ -1,28 +1,44 @@
 //
-// Created by 이동규 on 2016. 6. 29..
+// Created by ??? on 2016. 6. 29..
 //
 
 #include "game.h"
 
 #define LINE 8
+#define PLAYER1 'O'
+#define PLAYER2 'X'
 
 /*
- * TODO 가로줄 출력
+ * TODO ??? ??
  * */
 void printHorizontalLine() {
     printf("\t----------------------------------------------------------------\n");
 }
 
 /*
- * TODO 세로줄 출력
+ * TODO ??? ??
  * */
 void printVerticalLine(int line) {
     printf("%c\t|\t|\t|\t|\t|\t|\t|\t|\t|\n", line);
 }
 
+/*
+ * TODO ??? ??
+ * @params player ????
+ * @params x x??
+ * @params y y??
+ * */
+void setPin(char player, char x, int y) {
+    printf("%c", player);
+    COORD position = {x, y};
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleCursorPosition(console, position);
+    printf("%c", player);
+}
+
 
 /*
- * TODO 기본 세팅
+ * TODO ?? ??
  * */
 void baseSetting() {
     char line = 'a';
@@ -32,4 +48,5 @@ void baseSetting() {
         printVerticalLine(line++);
         printHorizontalLine();
     }
+//    setPin(PLAYER1, 5, 1);
 }

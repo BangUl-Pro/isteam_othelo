@@ -41,9 +41,9 @@ void startGame() {
  * */
 int choiceMenu() {
     int menu = 0;
-    printf("1. 게임시작\n");
-    printf("2. 게임규칙\n");
-    printf("3. 게임종료\n");
+    printf("1. Game Start\n");
+    printf("2. Game Rules\n");
+    printf("3. End\n");
     scanf("%d", &menu);
     return menu;
 }
