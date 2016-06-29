@@ -40,7 +40,7 @@ int main() {
  * */
 void startGame() {
     playCount++;
-    baseSetting(playerWin1, playerWin2, draw);
+    baseSetting(playerWin1, playerWin2, draw ,playCount);
     int turn = playCount % 2;
     while (checkGameable()) {
         if (turn) {

@@ -22,7 +22,7 @@
 #define SCORE_X 35
 #define SCORE_Y 0
 
-void baseSetting(int playerWin1, int playerWin2, int draw);
+void baseSetting(int playerWin1, int playerWin2, int draw, int playCount);
 int checkGameable();
 int getPinCount(char player);
 void setPin(char player, int x, char y);

@@ -251,7 +251,7 @@ int checkGameable() {
 /*
  * TODO 기본 세팅
  * */
-void baseSetting(int playerWin1, int playerWin2, int draw) {
+void baseSetting(int playerWin1, int playerWin2, int draw, int playCount) {
     int i, j;
 
     for (i = 0; i < 8; ++i) {
@@ -264,7 +264,10 @@ void baseSetting(int playerWin1, int playerWin2, int draw) {
     printf("PLAYER1 = %c / %d\t\t\t", PLAYER1, 2);
     printf("PLAYER1 %d VS %d PLAYER2 \t DROW %d\n", playerWin1, playerWin2, draw);
     printf("PLAYER2 = %c / %d\t\t\t", PLAYER2, 2);
-    printf("TURN = PLAYER1\n");
+    if (playCount % 2)
+        printf("TURN = PLAYER1\n");
+    else
+        printf("TURN = PLAYER2\n");
 
     char line = 1;
     printf("\t   a\t   b\t   c\t   d\t   e\t   f\t   g\t   h\n");
