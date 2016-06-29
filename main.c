@@ -5,7 +5,7 @@ void startGame();
 int choiceMenu();
 void showRule();
 
-int startPlayer = 1;
+int playCount = 0;
 
 int main() {
 //    while (1) {
@@ -35,8 +35,9 @@ int main() {
  * TODO 게임 시작
  * */
 void startGame() {
+    playCount++;
     baseSetting();
-    int turn = 1;
+    int turn = playCount % 2;
     while (checkGameable()) {
         if (turn) {
             inputPin(PLAYER1);
@@ -47,10 +48,6 @@ void startGame() {
             turn++;
         }
     }
-    if (startPlayer)
-        startPlayer--;
-    else
-        startPlayer++;
 }
 
 
