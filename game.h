@@ -13,6 +13,14 @@
 #define PLAYER2 'X'
 #define ANOTER 1
 #define MINE 2
+#define PLAYER1_SCORE_X 14
+#define PLAYER1_SCORE_Y 0
+#define PLAYER2_SCORE_X 14
+#define PLAYER2_SCORE_Y 1
+#define TURN_X 39
+#define TURN_Y 1
+#define SCORE_X 35
+#define SCORE_Y 0
 
 void baseSetting();
 int checkGameable();

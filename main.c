@@ -36,7 +36,7 @@ int main() {
  * */
 void startGame() {
     baseSetting();
-    int turn = 0;
+    int turn = 1;
     while (checkGameable()) {
         if (turn) {
             inputPin(PLAYER1);

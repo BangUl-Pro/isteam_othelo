@@ -9,6 +9,24 @@ int pin[8][8] = {0};
 int isSetPinable(char player, int x, char y);
 int isAnotherPin(char player, int x, char y);
 
+void gotoxy(int x, int y) {
+    COORD position = {x, y};
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleCursorPosition(console, position);
+}
+
+int getPinCount(char player) {
+    int i, j;
+    int count = 0;
+    for (i = 0; i < 8; ++i) {
+        for (j = 0; j < 8; ++j) {
+            if (pin[i][j] == player)
+                count++;
+        }
+    }
+    return count;
+}
+
 /*
  * TODO 가로줄 출력
  * */
@@ -32,9 +50,7 @@ void printVerticalLine(int line) {
 void setPin(char player, int x, char y) {
     pin[x - 1][y - 'a'] = player;
     int curY = y - 'a' + 2;
-    COORD position = {(x << 3) + 4, curY << 1};
-    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleCursorPosition(console, position);
+    gotoxy((x << 3) + 4, curY << 1);
     printf("%c", player);
 }
 
@@ -78,9 +94,7 @@ int changePin(char player, int x, char y) {
  * @params player 플레이어
  * */
 void inputPin(char player) {
-    COORD position = {0, 25};
-    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleCursorPosition(console, position);
+    gotoxy(0, 20);
     char y;
     int x;
     do {
@@ -92,6 +106,16 @@ void inputPin(char player) {
     }
     while (!changePin(player, x, y));
     setPin(player, x, y);
+
+    gotoxy(PLAYER1_SCORE_X, PLAYER1_SCORE_Y);
+    printf("%d", getPinCount(PLAYER1));
+    gotoxy(PLAYER2_SCORE_X, PLAYER2_SCORE_Y);
+    printf("%d", getPinCount(PLAYER2));
+    gotoxy(TURN_X, TURN_Y);
+    if (player == PLAYER1)
+        printf("PLAYER2");
+    else
+        printf("PLAYER1");
 }
 
 /*
