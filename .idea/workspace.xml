@@ -11,11 +11,7 @@
     </ADDITIONAL_GENERATION_ENVIRONMENT>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="59a6644a-a89a-45a9-8bf4-6f7a84f3c153" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/game.c" afterPath="$PROJECT_DIR$/game.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/game.h" afterPath="$PROJECT_DIR$/game.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.c" afterPath="$PROJECT_DIR$/main.c" />
-    </list>
+    <list default="true" id="59a6644a-a89a-45a9-8bf4-6f7a84f3c153" name="Default" comment="" />
     <ignored path="othelo.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
