@@ -1,5 +1,7 @@
 #include <stdio.h>
+#include "game.h"
 
+void startGame();
 int choiceMenu();
 void showRule();
 
@@ -8,6 +10,7 @@ int main() {
         switch (choiceMenu()) {
             case 1:
                 // 게임 시작
+                startGame();
                 break;
 
             case 2:
@@ -20,12 +23,21 @@ int main() {
                 return 0;
         }
     }
-    return 0;
+}
+
+
+////////////////////////////////// Menu //////////////////////////////////
+
+/*
+ * TODO 게임 시작
+ * */
+void startGame() {
+    setBase();
 }
 
 
 /*
- * TODO : 메뉴 보여주기
+ * TODO 메뉴 보여주기
  * */
 int choiceMenu() {
     int menu = 0;
@@ -38,7 +50,7 @@ int choiceMenu() {
 
 
 /*
- * TODO : 규칙 보여주기
+ * TODO 규칙 보여주기
  */
 void showRule() {
     printf("게임 규칙\n\n");
@@ -51,3 +63,5 @@ void showRule() {
     printf("\t한 차례에 양 쪽 모두 서로 차례를 넘겨야 하는 경우\n");
     printf("-게임이 끝났을 때 돌이 많이 있는 플레이어가 승자가 된다. 만일 돌의 개수가 같을 경우는 무승부가 된다.\n\n\n");
 }
+
+////////////////////////////////// Game //////////////////////////////////
