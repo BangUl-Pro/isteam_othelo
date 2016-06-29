@@ -9,12 +9,6 @@ int pin[8][8] = {0};
 int isSetPinable(char player, int x, char y);
 int isAnotherPin(char player, int x, char y);
 
-void gotoxy(int x, int y) {
-    COORD position = {x, y};
-    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleCursorPosition(console, position);
-}
-
 /*
  * TODO 가로줄 출력
  * */
@@ -38,7 +32,9 @@ void printVerticalLine(int line) {
 void setPin(char player, int x, char y) {
     pin[x - 1][y - 'a'] = player;
     int curY = y - 'a' + 2;
-    gotoxy((x << 3) + 4, curY << 1);
+    COORD position = {(x << 3) + 4, curY << 1};
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleCursorPosition(console, position);
     printf("%c", player);
 }
 
@@ -82,7 +78,9 @@ int changePin(char player, int x, char y) {
  * @params player 플레이어
  * */
 void inputPin(char player) {
-    gotoxy(0, 20);
+    COORD position = {0, 25};
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleCursorPosition(console, position);
     char y;
     int x;
     do {
@@ -251,6 +249,8 @@ void baseSetting() {
 }
 
 void endSetting() {
-    gotoxy(0,0);
+    COORD position = {0, 0};
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleCursorPosition(console, position);
     system("cls");
 }
