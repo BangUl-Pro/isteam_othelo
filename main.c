@@ -6,7 +6,7 @@ int choiceMenu();
 void showRule();
 
 int main() {
-    while (1) {
+//    while (1) {
         switch (choiceMenu()) {
             case 1:
                 // 게임 시작
@@ -22,7 +22,7 @@ int main() {
                 // 게임 종료
                 return 0;
         }
-    }
+//    }
 }
 
 
