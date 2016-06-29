@@ -27,7 +27,7 @@ void printVerticalLine(int line) {
  * @params y y좌표
  * */
 void setPin(char player, int x, char y) {
-    pin[x][y - 'a'] = player;
+    pin[x - 1][y - 'a'] = player;
     int curY = y - 'a' + 2;
     COORD position = {(x << 3) + 4, curY << 1};
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -46,12 +46,71 @@ void inputPin(char player) {
 
     char x;
     int y;
-    printf("input alphabet = ");
+    printf("input alphabet =   \b\b");
     getchar();
     x = getchar();
-    printf("input number = ");
+    printf("input number =   \b\b");
     scanf("%d", &y);
     setPin(player, y, x);
+}
+
+/*
+ * TODO 꽉 찼는지 확인
+ * */
+int isFull() {
+    int i, j;
+    for (i = 0; i < 8; ++i) {
+        for (j = 0; j < 8; ++j) {
+            if (!pin[i][j])
+                break;
+        }
+        if (!pin[i][j])
+            break;
+    }
+
+    if (i == 8 && j == 8)
+        return 1;
+    return 0;
+}
+
+/*
+ * TODO 한 쪽이 다 먹었을 때
+ * */
+int isNoPin() {
+    int i, j, temp = 0;
+    for (i = 0; i < 8; ++i) {
+        int state = 0;
+        for (j = 0; j < 8; ++j) {
+            if (!pin[i][j])
+                continue;
+
+            printf("%d\n", pin[i][j]);
+            if (!temp)
+                temp = pin[i][j];
+            else if (pin[i][j] != temp) {
+                state = 1;
+                break;
+            }
+        }
+        if (state)
+            break;
+    }
+    if (i == 8 && j == 8)
+        return 1;
+    return 0;
+}
+
+/*
+ * TODO 바둑돌을 놓을 수 있는지
+ * @params player 플레이어
+ * @params x x좌표
+ * @params y y좌표
+ * */
+int isSetPinable(char player, int x, char y) {
+    // 이미 다른 돌이 있음
+    if (pin[x - 1][y - 'a'])
+        return 0;
+    
 }
 
 /*
@@ -59,12 +118,16 @@ void inputPin(char player) {
  * */
 int checkGameable() {
     int i, j;
-
-    // 다 찼는지 확인
+    if (isFull())
+        return 0;
+    if (isNoPin())
+        return 0;
     for (i = 0; i < 8; ++i) {
         for (j = 0; j < 8; ++j) {
-            if (!pin[i][j])
-                break;
+            if (isSetPinable(PLAYER1, i, j))
+                return 1;
+            if (isSetPinable(PLAYER2, i, j))
+                return 1;
         }
     }
     if (i == 8 && j == 8)
@@ -77,7 +140,7 @@ int checkGameable() {
  * TODO 기본 세팅
  * */
 void baseSetting() {
-    int i;
+    int i, j;
 
     system("cls");
     printf("PLAYER1 = %c / %d\t\t\t", PLAYER1, 2);
@@ -96,6 +159,13 @@ void baseSetting() {
     setPin(PLAYER1, 5, 'e');
     setPin(PLAYER2, 5, 'd');
     setPin(PLAYER2, 4, 'e');
+
+//    for (i = 0; i < 8; ++i) {
+//        for (j = 0; j < 8; ++j) {
+//            printf("%d\t", pin[i][j]);
+//        }
+//        printf("\n");
+//    }
 //    endSetting();
 }
 

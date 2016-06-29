@@ -36,13 +36,15 @@ int main() {
  * */
 void startGame() {
     baseSetting();
+    int turn = 0;
     while (checkGameable()) {
-        if (startPlayer) {
+        if (turn) {
             inputPin(PLAYER1);
+            turn--;
+        }
+        else {
             inputPin(PLAYER2);
-        } else {
-            inputPin(PLAYER2);
-            inputPin(PLAYER1);
+            turn++;
         }
     }
     if (startPlayer)
