@@ -4,5 +4,8 @@
 
 #ifndef OTHELO_GAME_H
 #define OTHELO_GAME_H
-void setBase();
+
+#include "stdio.h"
+
+void baseSetting();
 #endif //OTHELO_GAME_H

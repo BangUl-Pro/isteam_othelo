@@ -32,7 +32,7 @@ int main() {
  * TODO 게임 시작
  * */
 void startGame() {
-    setBase();
+    baseSetting();
 }
 
 
