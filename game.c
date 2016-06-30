@@ -110,8 +110,10 @@ int inputPin(char player) {
         printf("input (x, y) = \t\t\t\t\t");
         gotoxy(15, 20);
         while ((x = getchar()) == '\n');
+        if (x == 'r')
+            return 0;
         while ((y = getchar()) == '\n');
-        if (y == 'r' || x == 'r') {
+        if (y == 'r') {
             return 0;
         }
         if (x >= 'a' && x <= 'z') {
@@ -274,7 +276,7 @@ void baseSetting(int playerWin1, int playerWin2, int draw, int playCount) {
     }
 
     system("cls");
-    printf("PLAYER1 = %c / %d\t\t\t", PLAYER1, 2);
+    printf("PLAYER1 = %c / %d\t\t", PLAYER1, 2);
     printf("PLAYER1 %d VS %d PLAYER2 \t DROW %d\n", playerWin1, playerWin2, draw);
     printf("PLAYER2 = %c / %d\t\t\t", PLAYER2, 2);
     if (playCount % 2)
@@ -283,7 +285,7 @@ void baseSetting(int playerWin1, int playerWin2, int draw, int playCount) {
         printf("TURN = PLAYER2\n");
 
     char line = 1;
-    printf("\t   a\t   b\t   c\t   d\t   e\t   f\t   g\t   h\n");
+    printf("\t    a\t    b\t    c\t    d\t    e\t    f\t    g\t    h\n");
     printHorizontalLine();
     for (i = 0; i < LINE; ++i) {
         printVerticalLine(line++);

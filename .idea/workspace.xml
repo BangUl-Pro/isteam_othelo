@@ -14,11 +14,8 @@
     <list default="true" id="59a6644a-a89a-45a9-8bf4-6f7a84f3c153" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/a.exe" afterPath="$PROJECT_DIR$/a.exe" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/game.o" afterPath="$PROJECT_DIR$/game.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.o" afterPath="$PROJECT_DIR$/main.o" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/game.c" afterPath="$PROJECT_DIR$/game.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/game.h" afterPath="$PROJECT_DIR$/game.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.c" afterPath="$PROJECT_DIR$/main.c" />
     </list>
     <ignored path="othelo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -62,8 +59,8 @@
       <file leaf-file-name="game.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/game.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="746">
-              <caret line="136" column="8" selection-start-line="136" selection-start-column="8" selection-end-line="136" selection-end-column="8" />
+            <state relative-caret-position="502">
+              <caret line="287" column="65" selection-start-line="287" selection-start-column="65" selection-end-line="287" selection-end-column="65" />
               <folding />
             </state>
           </provider>
@@ -759,8 +756,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/game.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="746">
-          <caret line="136" column="8" selection-start-line="136" selection-start-column="8" selection-end-line="136" selection-end-column="8" />
+        <state relative-caret-position="502">
+          <caret line="287" column="65" selection-start-line="287" selection-start-column="65" selection-end-line="287" selection-end-column="65" />
           <folding />
         </state>
       </provider>
