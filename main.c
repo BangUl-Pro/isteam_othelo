@@ -2,13 +2,17 @@
 #include "game.h"
 
 void startGame();
+void endGame();
 int choiceMenu();
 void showRule();
 
-int startPlayer = 1;
+int playCount = 0;
+int playerWin1 = 0;
+int playerWin2 = 0;
+int draw = 0;
 
 int main() {
-//    while (1) {
+    while (1) {
         switch (choiceMenu()) {
             case 1:
                 // 게임 시작
@@ -24,8 +28,7 @@ int main() {
                 // 게임 종료
                 return 0;
         }
-//    }
-    return 0;
+    }
 }
 
 
@@ -35,22 +38,48 @@ int main() {
  * TODO 게임 시작
  * */
 void startGame() {
-    baseSetting();
-    int turn = 0;
+    playCount++;
+    baseSetting(playerWin1, playerWin2, draw ,playCount);
+    int turn = playCount % 2;
     while (checkGameable()) {
         if (turn) {
-            inputPin(PLAYER1);
+            if (!inputPin(PLAYER1)) {
+                playCount--;
+                system("cls");
+                return;
+            }
             turn--;
         }
         else {
-            inputPin(PLAYER2);
+            if (!inputPin(PLAYER2)) {
+                playCount--;
+                system("cls");
+                return;
+            }
             turn++;
         }
     }
-    if (startPlayer)
-        startPlayer--;
-    else
-        startPlayer++;
+    endGame();
+}
+
+/*
+ * TODO 게임 끝
+ * */
+void endGame() {
+    int player1Pin = getPinCount(PLAYER1);
+    int player2Pin = getPinCount(PLAYER2);
+
+    system("cls");
+    if (player1Pin > player2Pin) {
+        printf("PLAYER1 WIN\n");
+        playerWin1++;
+    } else if (player2Pin > player1Pin) {
+        printf("PLAYER2 WIN\n");
+        playerWin2++;
+    } else {
+        printf("DRAW!!\n");
+        draw++;
+    }
 }
 
 

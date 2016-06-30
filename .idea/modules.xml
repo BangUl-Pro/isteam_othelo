@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/isteam_othelo.iml" filepath="$PROJECT_DIR$/.idea/isteam_othelo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/othelo.iml" filepath="$PROJECT_DIR$/.idea/othelo.iml" />
     </modules>
   </component>
 </project>

@@ -9,6 +9,24 @@ int pin[8][8] = {0};
 int isSetPinable(char player, int x, char y);
 int isAnotherPin(char player, int x, char y);
 
+void gotoxy(int x, int y) {
+    COORD position = {x, y};
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleCursorPosition(console, position);
+}
+
+int getPinCount(char player) {
+    int i, j;
+    int count = 0;
+    for (i = 0; i < 8; ++i) {
+        for (j = 0; j < 8; ++j) {
+            if (pin[i][j] == player)
+                count++;
+        }
+    }
+    return count;
+}
+
 /*
  * TODO 가로줄 출력
  * */
@@ -31,10 +49,8 @@ void printVerticalLine(int line) {
  * */
 void setPin(char player, int x, char y) {
     pin[x - 1][y - 'a'] = player;
-    int curY = y - 'a' + 2;
-    COORD position = {(x << 3) + 4, curY << 1};
-    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleCursorPosition(console, position);
+    int curY = y - 'a' + 1;
+    gotoxy((curY << 3) + 4, (x << 1) + 2);
     printf("%c", player);
 }
 
@@ -46,6 +62,14 @@ int changePin(char player, int x, char y) {
     int curY = y - 'a';
     int count, state, changeCount = 0;
     int j, k;
+
+    if ((curX < 0 && curX > 7) || (curY < 0 && curY > 7))
+        return 0;
+
+    // 이미 다른 돌이 있음
+    if (pin[curX][curY])
+        return 0;
+
     for (j = -1; j <= 1; ++j) {
         for (k = -1; k <= 1; ++k) {
             if (j == 0 && k == 0)
@@ -77,21 +101,44 @@ int changePin(char player, int x, char y) {
  * TODO 바둑돌 둘 곳 입력 받기
  * @params player 플레이어
  * */
-void inputPin(char player) {
-    COORD position = {0, 25};
-    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleCursorPosition(console, position);
+int inputPin(char player) {
     char y;
     int x;
+    int temp;
     do {
-        printf("input alphabet =   \b\b");
-        getchar();
-        y = getchar();
-        printf("input number =   \b\b");
-        scanf("%d", &x);
+        gotoxy(0, 20);
+        printf("input (x, y) = \t\t\t\t\t");
+        gotoxy(15, 20);
+        while ((x = getchar()) == '\n');
+        if (x == 'r')
+            return 0;
+        while ((y = getchar()) == '\n');
+        if (y == 'r') {
+            return 0;
+        }
+        if (x >= 'a' && x <= 'z') {
+            temp = x;
+            x = y;
+            y = temp;
+        }
+        x -= '0';
     }
     while (!changePin(player, x, y));
     setPin(player, x, y);
+
+    // 바둑돌 수
+    gotoxy(PLAYER1_SCORE_X, PLAYER1_SCORE_Y);
+    printf("%d  \b\b", getPinCount(PLAYER1));
+    gotoxy(PLAYER2_SCORE_X, PLAYER2_SCORE_Y);
+    printf("%d  \b\b", getPinCount(PLAYER2));
+
+    // 누구 차례인지 변경
+    gotoxy(TURN_X, TURN_Y);
+    if (player == PLAYER1)
+        printf("PLAYER2");
+    else
+        printf("PLAYER1");
+    return 1;
 }
 
 /*
@@ -164,14 +211,15 @@ int isAnotherPin(char player, int x, char y) {
  * @params y y좌표
  * */
 int isSetPinable(char player, int x, char y) {
-    // 이미 다른 돌이 있음
     int curX = x - 1;
     int curY = y - 'a';
-    int count = 0, state = 0;
+    int count, state, changeCount = 0;
+    int j, k;
+
+    // 이미 다른 돌이 있음
     if (pin[curX][curY])
         return 0;
 
-    int j, k;
     for (j = -1; j <= 1; ++j) {
         for (k = -1; k <= 1; ++k) {
             if (j == 0 && k == 0)
@@ -180,8 +228,8 @@ int isSetPinable(char player, int x, char y) {
             int k2 = k;
             count = 0;
             while ((state = isAnotherPin(player, curX + j2, curY + k2)) == 1) {
-                j2+=j2;
-                k2+=k2;
+                j2+=j;
+                k2+=k;
                 count++;
             }
             if (state == 2 && count > 0) {
@@ -201,34 +249,43 @@ int checkGameable() {
         return 0;
     if (isNoPin())
         return 0;
-//    for (i = 0; i < 8; ++i) {
-//        for (j = 0; j < 8; ++j) {
-//            if (isSetPinable(PLAYER1, i, j))
-//                return 1;
-//            if (isSetPinable(PLAYER2, i, j))
-//                return 1;
-//        }
-//    }
-    if (i == 8 && j == 8)
-        return 0;
-    return 1;
+    for (i = 0; i < 8; ++i) {
+        for (j = 0; j < 8; ++j) {
+            if (isSetPinable(PLAYER1, i, j + 'a'))
+                return 1;
+            if (isSetPinable(PLAYER2, i, j + 'a'))
+                return 2;
+        }
+    }
+//    if (i == 8 && j == 8)
+//        return 0;
+    return 0;
 }
 
 
 /*
  * TODO 기본 세팅
  * */
-void baseSetting() {
+void baseSetting(int playerWin1, int playerWin2, int draw, int playCount) {
     int i, j;
 
+    for (i = 0; i < 8; ++i) {
+        for (j = 0; j < 8; ++j) {
+            pin[i][j] = 0;
+        }
+    }
+
     system("cls");
-    printf("PLAYER1 = %c / %d\t\t\t", PLAYER1, 2);
-    printf("w/d/l = %d/%d/%d\n", 0, 0, 0);
+    printf("PLAYER1 = %c / %d\t\t", PLAYER1, 2);
+    printf("PLAYER1 %d VS %d PLAYER2 \t DROW %d\n", playerWin1, playerWin2, draw);
     printf("PLAYER2 = %c / %d\t\t\t", PLAYER2, 2);
-    printf("TURN = PLAYER1\n");
+    if (playCount % 2)
+        printf("TURN = PLAYER1\n");
+    else
+        printf("TURN = PLAYER2\n");
 
     char line = 1;
-    printf("\t   a\t   b\t   c\t   d\t   e\t   f\t   g\t   h\n");
+    printf("\t    a\t    b\t    c\t    d\t    e\t    f\t    g\t    h\n");
     printHorizontalLine();
     for (i = 0; i < LINE; ++i) {
         printVerticalLine(line++);
@@ -239,13 +296,8 @@ void baseSetting() {
     setPin(PLAYER2, 5, 'd');
     setPin(PLAYER2, 4, 'e');
 
-//    for (i = 0; i < 8; ++i) {
-//        for (j = 0; j < 8; ++j) {
-//            printf("%d\t", pin[i][j]);
-//        }
-//        printf("\n");
-//    }
-//    endSetting();
+    gotoxy(50, 21);
+    printf("재시작은 r");
 }
 
 void endSetting() {
