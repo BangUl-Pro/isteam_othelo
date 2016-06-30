@@ -63,6 +63,9 @@ int changePin(char player, int x, char y) {
     int count, state, changeCount = 0;
     int j, k;
 
+    if ((curX < 0 && curX > 7) || (curY < 0 && curY > 7))
+        return 0;
+
     // 이미 다른 돌이 있음
     if (pin[curX][curY])
         return 0;
@@ -98,16 +101,25 @@ int changePin(char player, int x, char y) {
  * TODO 바둑돌 둘 곳 입력 받기
  * @params player 플레이어
  * */
-void inputPin(char player) {
-    gotoxy(0, 20);
+int inputPin(char player) {
     char y;
     int x;
+    int temp;
     do {
-        printf("input alphabet =   \b\b");
-        getchar();
-        y = getchar();
-        printf("input number =   \b\b");
-        scanf("%d", &x);
+        gotoxy(0, 20);
+        printf("input (x, y) = \t\t\t\t\t");
+        gotoxy(15, 20);
+        while ((x = getchar()) == '\n');
+        while ((y = getchar()) == '\n');
+        if (y == 'r' || x == 'r') {
+            return 0;
+        }
+        if (x >= 'a' && x <= 'z') {
+            temp = x;
+            x = y;
+            y = temp;
+        }
+        x -= '0';
     }
     while (!changePin(player, x, y));
     setPin(player, x, y);
@@ -124,6 +136,7 @@ void inputPin(char player) {
         printf("PLAYER2");
     else
         printf("PLAYER1");
+    return 1;
 }
 
 /*
@@ -280,6 +293,9 @@ void baseSetting(int playerWin1, int playerWin2, int draw, int playCount) {
     setPin(PLAYER1, 5, 'e');
     setPin(PLAYER2, 5, 'd');
     setPin(PLAYER2, 4, 'e');
+
+    gotoxy(50, 21);
+    printf("재시작은 r");
 }
 
 void endSetting() {

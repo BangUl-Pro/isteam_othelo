@@ -17,7 +17,6 @@ int main() {
             case 1:
                 // 게임 시작
                 startGame();
-                endGame();
                 break;
 
             case 2:
@@ -44,14 +43,23 @@ void startGame() {
     int turn = playCount % 2;
     while (checkGameable()) {
         if (turn) {
-            inputPin(PLAYER1);
+            if (!inputPin(PLAYER1)) {
+                playCount--;
+                system("cls");
+                return;
+            }
             turn--;
         }
         else {
-            inputPin(PLAYER2);
+            if (!inputPin(PLAYER2)) {
+                playCount--;
+                system("cls");
+                return;
+            }
             turn++;
         }
     }
+    endGame();
 }
 
 /*
