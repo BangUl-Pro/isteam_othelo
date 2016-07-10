@@ -41,7 +41,7 @@ void startGame() {
     playCount++;
     baseSetting(playerWin1, playerWin2, draw ,playCount);
     int turn = playCount % 2;
-    while (checkGameable()) {
+    while (checkGameable( turn )) {
         if (turn) {
             if (!inputPin(PLAYER1)) {
                 playCount--;
@@ -91,7 +91,7 @@ int choiceMenu() {
     printf("1. Game Start\n");
     printf("2. Game Rules\n");
     printf("3. End\n");
-    scanf("%d", &menu);
+    scanf_s("%d", &menu);
     return menu;
 }
 

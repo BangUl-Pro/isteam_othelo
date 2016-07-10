@@ -151,12 +151,12 @@ int isFull() {
             if (!pin[i][j])
                 break;
         }
-        if (!pin[i][j])
-            break;
+//        if (!pin[i][j])
+//            break;
     }
 
     if (i == 8 && j == 8)
-        return 1;
+        return 1;				// true means It's full.
     return 0;
 }
 
@@ -168,12 +168,12 @@ int isNoPin() {
     for (i = 0; i < 8; ++i) {
         int state = 0;
         for (j = 0; j < 8; ++j) {
-            if (!pin[i][j])
+            if (!pin[i][j])				// If Pin doesn't exist.
                 continue;
-            if (!temp)
+            if (!temp)					// If Pin exist, then check. If temp = 0, then do.
                 temp = pin[i][j];
-            else if (pin[i][j] != temp) {
-                state = 1;
+            else if (pin[i][j] != temp) {	// else temp != 0, then check.
+                state = 1;				// each player have pin.
                 break;
             }
         }
@@ -181,7 +181,7 @@ int isNoPin() {
             break;
     }
     if (i == 8 && j == 8)
-        return 1;
+        return 1;				// true means one player have no pin.
     return 0;
 }
 
@@ -211,7 +211,7 @@ int isAnotherPin(char player, int x, char y) {
  * @params y y좌표
  * */
 int isSetPinable(char player, int x, char y) {
-    int curX = x - 1;
+    int curX = x ;
     int curY = y - 'a';
     int count, state, changeCount = 0;
     int j, k;
@@ -226,12 +226,25 @@ int isSetPinable(char player, int x, char y) {
                 continue;
             int j2 = j;
             int k2 = k;
-            count = 0;
-            while ((state = isAnotherPin(player, curX + j2, curY + k2)) == 1) {
-                j2+=j;
-                k2+=k;
+			int iX = curX + j2 ;
+			int iY = curY + k2 ;
+	            count = 0;
+//            while ((state = isAnotherPin(player, curX + j2, curY + k2)) == 1) {
+			while ( ( state = isAnotherPin ( player , iX , iY ) ) == 1 )
+			{
+//                j2+=j;
+				iX += j ;
+//                k2+=k;
+				iY += k ;
                 count++;
             }
+
+			if ( ! ( count && ( iX >= 0 ) && ( iX <= 7 ) && ( iY >= 0 ) && ( iY <= 7 ) && ( 2 == state ) ) )		// If that place isn't empty then find another way.
+			{
+				continue ;
+			}
+
+
             if (state == 2 && count > 0) {
                 return 1;
             }
@@ -243,20 +256,46 @@ int isSetPinable(char player, int x, char y) {
 /*
  * TODO 게임 지속 가능한지 체크
  * */
-int checkGameable() {
+int checkGameable( int iTurn ) {
     int i, j;
-    if (isFull())
+//	int iCheck = 0 ;
+    if ( isFull () || isNoPin () )
         return 0;
-    if (isNoPin())
-        return 0;
-    for (i = 0; i < 8; ++i) {
+//    if (isNoPin())
+//        return 0;
+
+	if ( iTurn )				// Player1 Turn
+	{
+		for ( i = 0 ; i < 8 ; ++i )
+		{
+			for ( j = 0 ; j < 8 ; ++j )
+			{
+				if ( isSetPinable ( PLAYER1 , i , j + 'a' ) )
+				return 1 ;
+			}
+		}
+	}
+	else						// Player2 Turn
+	{
+		for ( i = 0 ; i < 8 ; ++i )
+		{
+			for ( j = 0 ; j < 8 ; ++j )
+			{
+				if ( isSetPinable ( PLAYER2 , i , j + 'a' ) )
+				return 1 ;
+			}
+		}
+	}
+    /*for (i = 0; i < 8; ++i) {
         for (j = 0; j < 8; ++j) {
-            if (isSetPinable(PLAYER1, i, j + 'a'))
-                return 1;
-            if (isSetPinable(PLAYER2, i, j + 'a'))
-                return 2;
+            if ( ( iCheck != 1 ) && isSetPinable(PLAYER1, i, j + 'a'))
+                iCheck += 1 ;
+            if ( ( iCheck != 2 ) && isSetPinable(PLAYER2, i, j + 'a'))
+                iCheck += 2;
+			if ( 3 == iCheck )
+				return 3 ;
         }
-    }
+    }*/
 //    if (i == 8 && j == 8)
 //        return 0;
     return 0;
@@ -277,7 +316,7 @@ void baseSetting(int playerWin1, int playerWin2, int draw, int playCount) {
 
     system("cls");
     printf("PLAYER1 = %c / %d\t\t", PLAYER1, 2);
-    printf("PLAYER1 %d VS %d PLAYER2 \t DROW %d\n", playerWin1, playerWin2, draw);
+    printf("PLAYER1 %d VS %d PLAYER2 \t DRAW %d\n", playerWin1, playerWin2, draw);
     printf("PLAYER2 = %c / %d\t\t\t", PLAYER2, 2);
     if (playCount % 2)
         printf("TURN = PLAYER1\n");

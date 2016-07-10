@@ -23,7 +23,7 @@
 #define SCORE_Y 0
 
 void baseSetting(int playerWin1, int playerWin2, int draw, int playCount);
-int checkGameable();
+int checkGameable( int iTurn );
 int getPinCount(char player);
 void setPin(char player, int x, char y);
 int inputPin(char player);
